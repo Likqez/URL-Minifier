@@ -6,10 +6,24 @@
     <title th:text="*{title}"></title>
 
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.1/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/css/homepage.css}">
 </head>
 
-<body>
-
+<body class="text-center">
+<!-- Main Container -->
+<main class="form-generate">
+    <form action="">
+        <img class="mb-5" th:src="@{/img/logo_round-128x128.png}" alt="dotspace Logo">
+        <h1 class="h3 mt-3 mb-3 fw-normal">Please enter desired URL</h1>
+        <div class="form-floating mb-3">
+            <input type="url" class="form-control" id="floatingInput" placeholder="https://gsso.de">
+            <label for="floatingInput">URL</label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Generieren</button>
+        <p class="mt-5 mb-3 text-muted">Made with ❤ by <a href="https://github.com/Likqez">Lukas Lanzner</a></p>
+        <p class="text-muted">© 2022</p>
+    </form>
+</main>
 
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
