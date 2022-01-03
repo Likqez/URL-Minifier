@@ -1,4 +1,4 @@
-package dev.dotspace.url.ctr;
+package dev.dotspace.url.ctrl;
 
 import dev.dotspace.url.UrlMinifierApplication;
 import org.springframework.stereotype.Controller;
