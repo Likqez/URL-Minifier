@@ -10,20 +10,60 @@
 </head>
 
 <body class="text-center">
+
 <!-- Main Container -->
 <main class="form-generate">
     <form action="">
-        <img class="mb-5" th:src="@{/img/logo_round-128x128.png}" alt="dotspace Logo">
-        <h1 class="h3 mt-3 mb-3 fw-normal">Please enter desired URL</h1>
+        <img class="mb-3" th:src="@{/img/logo_round-128x128.png}" alt="dotspace Logo">
+        <h1 class="h3 mb-5 fw-normal">URL-Minifier</h1>
+        <h1 class="h6 mt-5 mb-2">Insert URL here</h1>
+        <!-- User Input -->
         <div class="form-floating mb-3">
-            <input type="url" class="form-control" id="floatingInput" placeholder="https://gsso.de">
+            <input type="url" class="form-control" id="floatingInput" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
             <label for="floatingInput">URL</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Generieren</button>
+        <!-- End User Input -->
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Generate</button>
         <p class="mt-5 mb-3 text-muted">Made with ❤ by <a href="https://github.com/Likqez">Lukas Lanzner</a></p>
         <p class="text-muted">© 2022</p>
     </form>
 </main>
+<!-- End Main Container -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Here you go! Generation was successful ✔</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body flex-box">
+
+                <div class="input-group mb-3">
+                    <button class="btn btn-secondary btn-sm" type="button" id="button-addon1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        </svg>
+                    </button>
+                    <input type="text" class="form-control" th:value="*{'https://url.dotspace.dev/A2rD8y'}" aria-label="Example text with button addon" aria-describedby="button-addon1" disabled readonly>
+                </div>
+
+                <img class="mt-2" style="margin-left: 10px" th:src="@{img/QR-Code-sample.png}" alt="Link within QR-Code">
+            </div>
+            <!-- End Modal Body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">🖨 Print QR-Code</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
 
 
 <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
