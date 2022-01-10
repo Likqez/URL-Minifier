@@ -27,6 +27,7 @@ dependencies {
 
     /* Utils */
     implementation 'com.google.zxing:javase:3.4.1' //For QR-Code generation
+    implementation 'com.google.code.gson:gson:2.8.9' //Json
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
