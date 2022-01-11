@@ -1,0 +1,39 @@
+###
+POST http://localhost:80/api/v1/create
+Content-Type: application/json
+
+{
+  "test": "test"
+}
+
+<> 2022-01-11T020153.200.json
+
+###
+POST http://localhost:80/api/v1/create
+Content-Type: application/json
+
+{
+  "url": "https://gsso.de"
+}
+
+<> 2022-01-11T020154.200.json
+###
+POST http://localhost:80/api/v1/create
+Content-Type: application/json
+
+{
+  "url": "testtest!"
+}
+
+<> 2022-01-11T020154-1.200.json
+
+###
+POST http://localhost:80/api/v1/create
+Content-Type: application/json
+
+{
+  "url":"test";
+}
+
+<> 2022-01-11T020154-2.200.json
+
