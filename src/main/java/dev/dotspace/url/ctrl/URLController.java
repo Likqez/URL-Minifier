@@ -31,9 +31,7 @@ public class URLController {
       var requestBody = gson.fromJson(content, JsonObject.class); // Convert Json String to JsonObject
       var url = requestBody.get("url").getAsString(); // Retrive 'url' from requestBody
 
-      if (url == null)
-        responseStatus = ResponseStatus.INVALID_ARGUMENTS;
-      else if (!urlPattern.matcher(url).matches())
+      if (!urlPattern.matcher(url).matches())
         responseStatus = ResponseStatus.INVALID_URL;
 
 
@@ -46,6 +44,8 @@ public class URLController {
 
     } catch (JsonSyntaxException ignore) {
       responseStatus = ResponseStatus.INVALID_JSON;
+    } catch (NullPointerException ignore) {
+      responseStatus = ResponseStatus.INVALID_ARGUMENTS;
     }
 
     return new GenerationResponse(responseStatus, minifiedURL, image);
