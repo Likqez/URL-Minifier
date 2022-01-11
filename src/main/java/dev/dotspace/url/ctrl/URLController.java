@@ -3,6 +3,7 @@ package dev.dotspace.url.ctrl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import dev.dotspace.url.UrlMinifierApplication;
 import dev.dotspace.url.response.GenerationResponse;
 import dev.dotspace.url.response.ResponseStatus;
 import dev.dotspace.url.util.QRCodeGenerator;
@@ -37,7 +38,7 @@ public class URLController {
 
 
       //TODO Sequenz generieren usw.
-      minifiedURL = "http://localhost/AABB69";
+      minifiedURL = UrlMinifierApplication.webPath.concat("/AABB69");
 
       var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL, 500, 500); //Generate QR-Code with url
       if (qrcode.isPresent()) image = qrcode.get();
