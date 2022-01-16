@@ -9,14 +9,15 @@ public class UrlMinifierApplication {
   public static final String TITLE = "%s | URL-Minifier";
 
   /*
-  Web Root Path to generate working URLs.
-  Protocol needs to be specified.
+  Web Root Path for redirects & URL generation.
+  The protocol needs to be specified.
+  Also please make sure the path ends with '/'.
   E.g.:
     https://url.dotspace.dev/
     https://dotspace.dev/url/
-    http://localhost
+    http://localhost/
   */
-  public static final String webPath = System.getenv().getOrDefault("minifier-webpath", "http://localhost");
+  public static final String webPath = System.getenv().getOrDefault("minifier_webpath", "http://localhost/");
 
   public static void main(String[] args) {
     SpringApplication.run(UrlMinifierApplication.class, args);
