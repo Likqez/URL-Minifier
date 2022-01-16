@@ -14,7 +14,7 @@ public interface StorageType {
    * @param uid   the identifier
    * @param url   the original url
    * @param image the generated qrimage
-   * @return
+   * @return wether the operation was success
    */
   boolean newMinified(String uid, String url, String image);
 
@@ -32,7 +32,7 @@ public interface StorageType {
    * Method to delete one minified link.
    *
    * @param uid the identifier
-   * @return the success of the operation
+   * @return wether the operation was success
    */
   boolean deleteMinified(String uid);
 
@@ -40,7 +40,7 @@ public interface StorageType {
    * Method to delete all minified links which redirect to the given url.
    *
    * @param url the url to check
-   * @return the success of the operation
+   * @return wether the operation was success
    */
   boolean deleteAllMinified(String url);
 }

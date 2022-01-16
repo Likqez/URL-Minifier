@@ -14,7 +14,7 @@ public class DatabaseStorage implements StorageType {
   private Connection connection;
 
   /**
-   * Initzializes Connection to the specified Database.
+   * Initializes Connection to the specified Database.
    * Host, User and Password are read from programm arguments.
    * If no argument is specified it will try to use the following environment variables:
    * <p>
@@ -25,7 +25,7 @@ public class DatabaseStorage implements StorageType {
    * If arguments are used,<br>
    * the first needs to be the host <br>
    * the second one the user<br>
-   * and the thid, the password for that user. If the third is not specified, no password will be used.
+   * and the third, the password for that user. If the third is not specified, no password will be used.
    *
    * @param args the programm arguments
    * @throws SQLException if connection establishment unsuccessful
@@ -114,11 +114,11 @@ public class DatabaseStorage implements StorageType {
             create table IF NOT EXISTS url_minifier.analytics
             (
                 uid      varchar(8)   not null,
-                adress varchar(128) null,
+                address varchar(128) null,
                 browser  text         null,
                 os       text         null,
                 region   text         null,
-                constraint uid_analytics_minfied_uid_fk
+                constraint uid_analytics_minified_uid_fk
                     foreign key (uid) references url_minifier.minified (uid)
                         on update cascade on delete cascade
             );

@@ -14,6 +14,7 @@ import java.util.Optional;
 @Controller
 public class DefautController {
 
+  @SuppressWarnings("SameReturnValue")
   @GetMapping("/")
   public String homepage(Model model) {
     model.addAttribute("title", UrlMinifierApplication.TITLE.formatted("Dashboard"));

@@ -1,5 +1,6 @@
 package dev.dotspace.url.response;
 
+@SuppressWarnings("unused")
 public record GenerationResponse(
     int status,
     String msg,
