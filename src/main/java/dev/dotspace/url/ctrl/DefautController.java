@@ -1,6 +1,7 @@
 package dev.dotspace.url.ctrl;
 
 import dev.dotspace.url.UrlMinifierApplication;
+import dev.dotspace.url.storage.StorageManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +28,10 @@ public class DefautController {
       @RequestHeader(value = "User-Agent") String userAgent,
       HttpServletRequest request) {
 
-    Optional<String> url = Optional.of("https://gsso.de");
+    Optional<String> url = StorageManager.queryUrl(uid);
     //TODO Analytics
 
     return url.map(RedirectView::new).orElseGet(() -> new RedirectView("/"));
   }
 
-  }
+}
