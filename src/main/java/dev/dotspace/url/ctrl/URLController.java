@@ -6,7 +6,9 @@ import com.google.gson.JsonSyntaxException;
 import dev.dotspace.url.UrlMinifierApplication;
 import dev.dotspace.url.response.GenerationResponse;
 import dev.dotspace.url.response.ResponseStatus;
+import dev.dotspace.url.storage.StorageManager;
 import dev.dotspace.url.util.QRCodeGenerator;
+import dev.dotspace.url.util.RandomStringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,16 +33,25 @@ public class URLController {
       var requestBody = gson.fromJson(content, JsonObject.class); // Convert Json String to JsonObject
       var url = requestBody.get("url").getAsString(); // Retrive 'url' from requestBody
 
-      if (!urlPattern.matcher(url).matches())
-        responseStatus = ResponseStatus.INVALID_URL;
+      if (!urlPattern.matcher(url).matches()) responseStatus = ResponseStatus.INVALID_URL;
 
+      boolean success;
+      int tries = 0;
+      do {
+        // Identifier generation
+        var uid = RandomStringUtils.random();
+        minifiedURL = UrlMinifierApplication.webPath.concat(uid);
 
-      //TODO Sequenz generieren usw.
-      minifiedURL = UrlMinifierApplication.webPath.concat("/AABB69");
+        //QR-Code generation
+        var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL, 500, 500);
+        if (qrcode.isPresent()) image = qrcode.get();
 
-      var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL, 500, 500); //Generate QR-Code with url
-      if (qrcode.isPresent()) image = qrcode.get();
+        //Try inserting into Storage. If uid is duplicate -> try again
+        success = StorageManager.newMinified(uid, url, image);
+        tries++;
+      } while (!success && tries <= 5);
 
+      if (!success) responseStatus = ResponseStatus.UNKNOWN;
 
     } catch (JsonSyntaxException ignore) {
       responseStatus = ResponseStatus.INVALID_JSON;
@@ -49,7 +60,7 @@ public class URLController {
     }
 
     return new GenerationResponse(responseStatus, minifiedURL, image);
-
   }
+
 
 }
