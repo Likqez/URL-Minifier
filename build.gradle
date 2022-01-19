@@ -29,10 +29,7 @@ dependencies {
     implementation 'com.google.zxing:javase:3.4.1' //For QR-Code generation
     implementation 'com.google.code.gson:gson:2.8.9' //Json
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.3' //SQL Driver
+    implementation 'org.xerial:sqlite-jdbc:3.36.0.3' //SQLite Driver
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-test {
-    useJUnitPlatform()
 }

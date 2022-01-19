@@ -1,6 +1,7 @@
 package dev.dotspace.url.storage;
 
 import dev.dotspace.url.storage.types.DatabaseStorage;
+import dev.dotspace.url.storage.types.LocalStorage;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -12,10 +13,16 @@ public class StorageManager {
   public static void initialize(String... args) {
     try {
       storageType = new DatabaseStorage(args);
+      System.out.println("DatabaseStorage achieved successful connection.");
     } catch (SQLException exception) {
-      System.getLogger("").log(System.Logger.Level.ERROR, "Couldn't initzialise DatabaseStorage. Exiting..");
-      exception.printStackTrace();
-      System.exit(1);
+      System.err.println("Couldn't initzialise DatabaseStorage. Trying LocalStorage instead...");
+      try {
+        storageType = new LocalStorage(args);
+        System.out.println("LocalStorage achieved successful connection.");
+      } catch (SQLException e) {
+        System.err.println("Couldn't initzialise LocalStorage. Exiting...");
+        System.exit(1);
+      }
     }
   }
 
