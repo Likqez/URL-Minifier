@@ -31,13 +31,15 @@ public class DatabaseStorage implements StorageType {
    * @throws SQLException if connection establishment unsuccessful
    */
   public DatabaseStorage(String... args) throws SQLException {
+    var protocol = "jdbc:mariadb://";
+
     if (args != null && args.length != 0) {
-      if (args.length == 2) connection = DriverManager.getConnection(args[0], args[1], null);
-      if (args.length == 3) connection = DriverManager.getConnection(args[0], args[1], args[2]);
+      if (args.length == 2) connection = DriverManager.getConnection(protocol + args[0], args[1], null);
+      if (args.length == 3) connection = DriverManager.getConnection(protocol + args[0], args[1], args[2]);
       return;
     }
 
-    var host = "jdbc:mariadb://" + System.getenv().getOrDefault("minifier_datahost", "localhost/");
+    var host = protocol + System.getenv().getOrDefault("minifier_datahost", "localhost/");
     var user = System.getenv().getOrDefault("minifier_datausr", "root");
     var pswd = System.getenv().getOrDefault("minifier_datapswd", null);
 
