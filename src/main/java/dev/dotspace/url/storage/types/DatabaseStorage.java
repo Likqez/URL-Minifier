@@ -42,7 +42,6 @@ public class DatabaseStorage implements StorageType {
     var pswd = System.getenv().getOrDefault("minifier_datapswd", null);
 
     connection = DriverManager.getConnection(host, user, pswd);
-    connection.setSchema("url_minifier");
 
     createSchemaStructure();
   }
@@ -50,7 +49,7 @@ public class DatabaseStorage implements StorageType {
 
   @Override
   public boolean newMinified(String uid, String url, String image) {
-    try (var statement = connection.prepareStatement("INSERT INTO url_minifier.minified(minified.uid,minified.url, minified.image) VALUES(?,?,?)")) {
+    try (var statement = connection.prepareStatement("INSERT INTO url_minifier.minified(uid,url,image) VALUES(?,?,?)")) {
 
       var res = PreparedStatementBuilder
           .builder(statement)
@@ -99,7 +98,12 @@ public class DatabaseStorage implements StorageType {
   /**
    * Tries to create the needed tables.
    */
-  public void createSchemaStructure() {
+  private void createSchemaStructure() {
+    try (var statement = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS url_minifier;")) {
+      statement.executeUpdate();
+    } catch (SQLException ignore) {
+    }
+
     try (var statement = connection.prepareStatement(
         """
             create table IF NOT EXISTS url_minifier.minified
@@ -111,22 +115,31 @@ public class DatabaseStorage implements StorageType {
                 constraint minified_uid_uindex
                     unique (uid)
             );
-            create table IF NOT EXISTS url_minifier.analytics
-            (
-                uid      varchar(8)   not null,
-                address varchar(128) null,
-                browser  text         null,
-                os       text         null,
-                region   text         null,
-                constraint uid_analytics_minified_uid_fk
-                    foreign key (uid) references url_minifier.minified (uid)
-                        on update cascade on delete cascade
-            );
             """
     )) {
       statement.executeUpdate();
     } catch (SQLException ignore) {
     }
+
+    try (var statement = connection.prepareStatement(
+        """
+              create table IF NOT EXISTS url_minifier.analytics
+            (
+                uid      varchar(8)   not null,
+                address varchar(128)  null,
+                browser  text         null,
+                os       text         null,
+                region   text         null,
+                constraint uid_analytics_minified_uid_fk
+                  foreign key (uid) references url_minifier.minified (uid)
+                    on update cascade on delete cascade
+            );
+             """
+    )) {
+      statement.executeUpdate();
+    } catch (SQLException ignore) {
+    }
+
   }
 
 }
