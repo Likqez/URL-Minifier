@@ -23,7 +23,7 @@
             <label for="floatingInput">URL</label>
         </div>
         <!-- End User Input -->
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Generate</button>
+        <button class="w-100 btn btn-lg btn-primary" id="submitBtn" type="button">Generate</button>
         <p class="mt-5 mb-3 text-muted">Made with ❤ by <a href="https://github.com/Likqez">Lukas Lanzner</a></p>
         <p class="text-muted">© 2022</p>
     </form>
@@ -31,8 +31,8 @@
 <!-- End Main Container -->
 
 
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<!-- Response Modal -->
+<div class="modal fade" id="responseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -50,10 +50,10 @@
                             <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
                         </svg>
                     </button>
-                    <input type="text" class="form-control" th:value="*{'https://url.dotspace.dev/A2rD8y'}" aria-label="Example text with button addon" aria-describedby="button-addon1" disabled readonly>
+                    <input type="text" class="form-control" id="outputUrl" aria-label="Example text with button addon" aria-describedby="button-addon1" disabled readonly>
                 </div>
 
-                <img class="mt-2" style="margin-left: 10px" th:src="@{img/QR-Code-sample.png}" alt="Link within QR-Code">
+                <img class="mt-2" id="outputImage" width="250px" height="250px" alt="Link within QR-Code">
             </div>
             <!-- End Modal Body -->
             <div class="modal-footer">
@@ -63,7 +63,7 @@
         </div>
     </div>
 </div>
-<!-- End Modal -->
+<!-- End Response Modal -->
 
 
 <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
@@ -71,8 +71,24 @@
 <script th:src="@{/webjars/bootstrap/5.1.1/js/bootstrap.min.js}"></script>
 
 <script>
-    $(document).ready(function () {     /* Hier folgt jQuery-Code */
-        jQuery('#staticBackdrop').modal('show');
+    $(document).ready(function () {
+        $("#submitBtn").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/api/v1/create",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({url: $("#floatingInput").val()}),
+                success: function (data) {
+                    jQuery('#outputUrl').val(data.url);
+                    jQuery('#outputImage').attr('src','data:image/png;base64,' + data.image);
+                    jQuery('#floatingInput').val('');
+                    jQuery('#responseModal').modal('show');
+                }
+            });
+
+        });
     });
 </script>
 
