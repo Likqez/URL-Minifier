@@ -2,6 +2,7 @@ package dev.dotspace.url.storage;
 
 import dev.dotspace.url.storage.types.DatabaseStorage;
 import dev.dotspace.url.storage.types.LocalStorage;
+import dev.dotspace.url.storage.types.MemoryStorage;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -20,8 +21,8 @@ public class StorageManager {
         storageType = new LocalStorage(args);
         System.out.println("LocalStorage achieved successful connection.");
       } catch (SQLException e) {
-        System.err.println("Couldn't initzialise LocalStorage. Exiting...");
-        System.exit(1);
+        System.err.println("Couldn't initzialise LocalStorage. Using MemoryStorage instead!");
+        storageType = new MemoryStorage();
       }
     }
   }
