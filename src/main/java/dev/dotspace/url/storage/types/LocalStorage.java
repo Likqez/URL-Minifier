@@ -13,8 +13,8 @@ public class LocalStorage implements StorageType {
 
   private final Connection connection;
 
-  public LocalStorage(String... args) throws SQLException {
-    connection = DriverManager.getConnection("jdbc:sqlite:test.db");
+  public LocalStorage() throws SQLException {
+    connection = DriverManager.getConnection("jdbc:sqlite:local.db");
     createSchemaStructure();
   }
 

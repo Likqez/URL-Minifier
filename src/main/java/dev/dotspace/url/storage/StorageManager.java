@@ -15,12 +15,12 @@ public class StorageManager {
     try {
       storageType = new DatabaseStorage(args);
       System.out.println("DatabaseStorage achieved successful connection.");
-    } catch (SQLException exception) {
+    } catch (Exception exception) {
       System.err.println("Couldn't initzialise DatabaseStorage. Trying LocalStorage instead...");
       try {
-        storageType = new LocalStorage(args);
+        storageType = new LocalStorage();
         System.out.println("LocalStorage achieved successful connection.");
-      } catch (SQLException e) {
+      } catch (Exception e) {
         System.err.println("Couldn't initzialise LocalStorage. Using MemoryStorage instead!");
         storageType = new MemoryStorage();
       }
