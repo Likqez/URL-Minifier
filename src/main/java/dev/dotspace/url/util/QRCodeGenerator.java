@@ -19,6 +19,18 @@ import java.util.Optional;
  */
 public class QRCodeGenerator {
 
+  public static final String SAMPLE = "iVBORw0KGgoAAAANSUhEUgAAANwAAADcAQMAAAAhlF3CAAAABlBMVEX///" +
+                                      "8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABlklEQVRYhd2YsZHE" +
+                                      "MAhF0ThQ6BJUiks7leZSXILCDTRi+YB3fLfXACjYsfU24Qt9wMS6XrRfRH" +
+                                      "T0H3lZm20OigWX7FF97Xw1bHSisraJzT0XLCJBFRGYLzqYiUSEKTKMqBBx" +
+                                      "Xsepx0mJIVHDgXbSvA0KPTVHwx2UOP/L2wTQrQawnWI1xOXLhzLAxzJosn" +
+                                      "ytAFCjrPhFnAyvKXObOOFUEI9Cx10F1VJRFpG3sWARk7SC3iwh5e88/TwT" +
+                                      "wTtLvQp2iED3eSaCUjlmNRGuQ0Uwk1WjiQbn9tI45QpKdZAwfQt5mwlCBK" +
+                                      "sEh5Z7VIf5VCgKhLG46ahratusd3KkgrLwvHt16Kw7LkIsuMwjtQcT9qkO" +
+                                      "1RvRNFAi1olOll5BE4GqipAJkvoKxiAyq8HxW94GhFrWUB260HK3ZSMT9G" +
+                                      "X3E09iqXpl40FrvGyikyG882dyJcoEfXLVCf30ntpTeaSC/lHFJlc0aM+k" +
+                                      "DgmlafZPl8uqYFrY2HtNu51I3GDQUlNdUydX/jsG5YC31ZgI+BC2MLP/9q" +
+                                      "H48A2o0D2Y1cCU2wAAAABJRU5ErkJggg==";
 
   /**
    * TODO add documentation

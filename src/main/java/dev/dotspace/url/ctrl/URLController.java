@@ -14,52 +14,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 @RestController
 public class URLController {
-
-  private static final Gson gson = new Gson();
 
   //URL Matching Pattern https://mathiasbynens.be/demo/url-regex @diegoperini
   final Pattern urlPattern = Pattern.compile("^(?:(?:https?)://)(?:\\S+(?::\\S*)?@)?(?:(?!10(?:\\.\\d{1,3}){3})(?!127(?:\\.\\d{1,3}){3})(?!169\\.254(?:\\.\\d{1,3}){2})(?!192\\.168(?:\\.\\d{1,3}){2})(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\x{00a1}-\\x{ffff}0-9]+-?)*[a-z\\x{00a1}-\\x{ffff}0-9]+)(?:\\.(?:[a-z\\x{00a1}-\\x{ffff}0-9]+-?)*[a-z\\x{00a1}-\\x{ffff}0-9]+)*(?:\\.(?:[a-z\\x{00a1}-\\x{ffff}]{2,})))(?::\\d{2,5})?(?:/[^\\s]*)?$");
 
   @RequestMapping(method = RequestMethod.POST, path = "/api/v1/create", consumes = "application/json")
-  public GenerationResponse createMinified(@RequestBody String content) {
-    var responseStatus = ResponseStatus.SUCCESS;
-    String minifiedURL = "", image = "";
+  public GenerationResponse createMinified(@RequestBody dev.dotspace.url.response.RequestBody content) {
 
-    try {
-      var requestBody = gson.fromJson(content, JsonObject.class); // Convert Json String to JsonObject
-      var url = requestBody.get("url").getAsString(); // Retrive 'url' from requestBody
+    final AtomicReference<String> minifiedURL = new AtomicReference<>("");
+    final AtomicReference<ResponseStatus> status = new AtomicReference<>(ResponseStatus.UNKNOWN);
+    final AtomicReference<String> image = new AtomicReference<>("");
 
-      if (!urlPattern.matcher(url).matches()) responseStatus = ResponseStatus.INVALID_URL;
+    /* Validate user input */
+    if (!urlPattern.matcher(content.url()).matches())
+      status.set(ResponseStatus.INVALID_URL);
 
-      boolean success;
-      int tries = 0;
-      do {
-        // Identifier generation
-        var uid = RandomStringUtils.random();
-        minifiedURL = UrlMinifierApplication.webPath.concat(uid);
+    /* Try generations 5 times if unsuccessful */
+    IntStream.range(0, 6).forEach(value -> {
+      /* Immidiatly exit other tries after one SUCCESS */
+      if (status.get() == ResponseStatus.SUCCESS) return;
 
-        //QR-Code generation
-        var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL, 500, 500);
-        if (qrcode.isPresent()) image = qrcode.get();
+      /* Identifier generation */
+      var uid = RandomStringUtils.random();
+      minifiedURL.set(UrlMinifierApplication.webPath.concat(uid));
 
-        //Try inserting into Storage. If uid is duplicate -> try again
-        success = StorageManager.newMinified(uid, url, image);
-        tries++;
-      } while (!success && tries <= 5);
+      /* QRcode generatio */
+      var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL.get(), 500, 500);
+      image.set(qrcode.orElse(QRCodeGenerator.SAMPLE));
 
-      if (!success) responseStatus = ResponseStatus.UNKNOWN;
+      /* Try inserting into Storage. If uid is duplicate -> try again */
+      StorageManager.newMinified(
+          uid,
+          content.url(),
+          image.get(),
+          () -> status.set(ResponseStatus.SUCCESS),
+          () -> status.set(ResponseStatus.UNKNOWN)
+      );
+    });
 
-    } catch (JsonSyntaxException ignore) {
-      responseStatus = ResponseStatus.INVALID_JSON;
-    } catch (NullPointerException ignore) {
-      responseStatus = ResponseStatus.INVALID_ARGUMENTS;
-    }
-
-    return new GenerationResponse(responseStatus, minifiedURL, image);
+    return new GenerationResponse(status.get(), minifiedURL.get(), image.get());
   }
 
 

@@ -6,6 +6,7 @@ import dev.dotspace.url.storage.types.MemoryStorage;
 
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class StorageManager {
 
@@ -31,8 +32,17 @@ public class StorageManager {
     return storageType.queryUrl(uid);
   }
 
-  public static boolean newMinified(String uid, String url, String image) {
-    return storageType.newMinified(uid, url, image);
+  public static boolean newMinified(String uid, String url, String image, Runnable success, Runnable onerror) {
+    var b = storageType.newMinified(uid, url, image);
+    if (b) success.run();
+    else onerror.run();
+    return b;
+  }
+
+  public static boolean newMinified(String uid, String url, String image, Runnable success) {
+    var b = storageType.newMinified(uid, url, image);
+    if (b) success.run();
+    return b;
   }
 
   public static boolean deleteMinified(String uid) {
