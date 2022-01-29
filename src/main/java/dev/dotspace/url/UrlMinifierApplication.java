@@ -1,5 +1,6 @@
 package dev.dotspace.url;
 
+import dev.dotspace.url.conf.ApplicationConfiguration;
 import dev.dotspace.url.storage.StorageManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +22,7 @@ public class UrlMinifierApplication {
   public static final String webPath = System.getenv().getOrDefault("minifier_webpath", "http://localhost/");
 
   public static void main(String[] args) {
+    ApplicationConfiguration.load(args);
     StorageManager.initialize();
     SpringApplication.run(UrlMinifierApplication.class, args);
   }
