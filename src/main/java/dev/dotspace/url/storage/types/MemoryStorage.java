@@ -4,6 +4,7 @@ import dev.dotspace.url.storage.StorageType;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class MemoryStorage implements StorageType {
 
@@ -13,6 +14,11 @@ public class MemoryStorage implements StorageType {
   public MemoryStorage() {
     this.minifiedUrl = new HashMap<>();
     this.minifiedImage = new HashMap<>();
+  }
+
+  @Override
+  public void established(Consumer<StorageType> success, Runnable onerror) {
+    success.accept(this);
   }
 
   @Override

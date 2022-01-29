@@ -1,5 +1,6 @@
 package dev.dotspace.url.storage.types;
 
+import dev.dotspace.url.conf.ApplicationConfiguration;
 import dev.dotspace.url.storage.StorageType;
 import dev.dotspace.url.util.PreparedStatementBuilder;
 
@@ -8,14 +9,33 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class LocalStorage implements StorageType {
 
   private final Connection connection;
+  private final boolean established;
 
-  public LocalStorage() throws SQLException {
-    connection = DriverManager.getConnection("jdbc:sqlite:local.db");
+  public LocalStorage() {
+    var success = false;
+    Connection conn = null;
+
+    try {
+      conn = DriverManager.getConnection("jdbc:sqlite:" + ApplicationConfiguration.DATABASE_PATH());
+      success = true;
+    } catch (SQLException ignore) {
+    } finally {
+      this.established = success;
+      this.connection = conn;
+    }
+
     createSchemaStructure();
+  }
+
+  @Override
+  public void established(Consumer<StorageType> success, Runnable onerror) {
+    if (this.established) success.accept(this);
+    else onerror.run();
   }
 
   @Override

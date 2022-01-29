@@ -1,5 +1,6 @@
 package dev.dotspace.url.storage.types;
 
+import dev.dotspace.url.conf.ApplicationConfiguration;
 import dev.dotspace.url.storage.StorageType;
 import dev.dotspace.url.util.PreparedStatementBuilder;
 
@@ -8,46 +9,40 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class DatabaseStorage implements StorageType {
 
-  private Connection connection;
+  private final Connection connection;
+  private final boolean established;
 
-  /**
-   * Initializes Connection to the specified Database.
-   * Host, User and Password are read from programm arguments.
-   * If no argument is specified it will try to use the following environment variables:
-   * <p>
-   * minifier_datahost: Host:Port<br>
-   * minifier_datausr: Username for login<br>
-   * minifier_datapswd: Password for login<br>
-   * <p>
-   * If arguments are used,<br>
-   * the first needs to be the host <br>
-   * the second one the user<br>
-   * and the third, the password for that user. If the third is not specified, no password will be used.
-   *
-   * @param args the programm arguments
-   * @throws SQLException if connection establishment unsuccessful
-   */
-  public DatabaseStorage(String... args) throws SQLException {
+  public DatabaseStorage() {
     var protocol = "jdbc:mariadb://";
 
-    if (args != null && args.length != 0) {
-      if (args.length == 2) connection = DriverManager.getConnection(protocol + args[0], args[1], null);
-      if (args.length == 3) connection = DriverManager.getConnection(protocol + args[0], args[1], args[2]);
-      return;
+    Connection conn = null;
+    var success = false;
+
+    try {
+      conn = DriverManager.getConnection(
+          protocol + ApplicationConfiguration.DATABASE_HOST(),
+          ApplicationConfiguration.DATABASE_USER(),
+          ApplicationConfiguration.DATABASE_PASSWD()
+      );
+      success = true;
+    } catch (SQLException ignore) {
+    } finally {
+      this.connection = conn;
+      this.established = success;
     }
-
-    var host = protocol + System.getenv().getOrDefault("minifier_datahost", "localhost/");
-    var user = System.getenv().getOrDefault("minifier_datausr", "root");
-    var pswd = System.getenv().getOrDefault("minifier_datapswd", null);
-
-    connection = DriverManager.getConnection(host, user, pswd);
 
     createSchemaStructure();
   }
 
+  @Override
+  public void established(Consumer<StorageType> success, Runnable onerror) {
+    if (this.established) success.accept(this);
+    else onerror.run();
+  }
 
   @Override
   public boolean newMinified(String uid, String url, String image) {

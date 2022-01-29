@@ -1,11 +1,14 @@
 package dev.dotspace.url.storage;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * @see StorageManager
  */
 public interface StorageType {
+
+  void established(Consumer<StorageType> success, Runnable onerror);
 
   /**
    * Method to insert a new minified link into the storage system.

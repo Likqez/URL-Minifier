@@ -21,7 +21,7 @@ public class UrlMinifierApplication {
   public static final String webPath = System.getenv().getOrDefault("minifier_webpath", "http://localhost/");
 
   public static void main(String[] args) {
-    StorageManager.initialize(args);
+    StorageManager.initialize();
     SpringApplication.run(UrlMinifierApplication.class, args);
   }
 
