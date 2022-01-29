@@ -18,6 +18,15 @@ public class ApplicationConfiguration {
 
   /* Web configuration */
 
+  /*
+  Web Root Path for redirects & URL generation.
+  The protocol needs to be specified.
+  Also, please make sure the path ends with '/'.
+  E.g.:
+    https://url.dotspace.dev/
+    https://dotspace.dev/url/
+    http://localhost/
+  */
   @Getter
   private static String APPLICATION_WEB_PATH;
 

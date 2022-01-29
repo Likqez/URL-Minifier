@@ -1,9 +1,6 @@
 package dev.dotspace.url.ctrl;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-import dev.dotspace.url.UrlMinifierApplication;
+import dev.dotspace.url.conf.ApplicationConfiguration;
 import dev.dotspace.url.response.GenerationResponse;
 import dev.dotspace.url.response.ResponseStatus;
 import dev.dotspace.url.storage.StorageManager;
@@ -42,7 +39,7 @@ public class URLController {
 
       /* Identifier generation */
       var uid = RandomStringUtils.random();
-      minifiedURL.set(UrlMinifierApplication.webPath.concat(uid));
+      minifiedURL.set(ApplicationConfiguration.APPLICATION_WEB_PATH().concat(uid));
 
       /* QRcode generatio */
       var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL.get(), 500, 500);
