@@ -29,7 +29,7 @@ public class LocalStorage implements StorageType {
       this.connection = conn;
     }
 
-    createSchemaStructure();
+    if (this.established) createSchemaStructure();
   }
 
   @Override

@@ -35,7 +35,7 @@ public class DatabaseStorage implements StorageType {
       this.established = success;
     }
 
-    createSchemaStructure();
+    if (this.established) createSchemaStructure();
   }
 
   @Override
