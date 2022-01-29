@@ -7,12 +7,12 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 public enum ConfigurationEntry {
 
-  DATABASE_HOST("MINIFIER_DATABASE_HOST", "data.host", "localhost"),
-  DATABASE_USER("MINIFIER_DATABASE_USER", "data.usr", "root"),
-  DATABASE_PASSWD("MINIFIER_DATABASE_PASSWD", "data.passwd", null),
-  DATABASE_PATH("MINIFIER_DATABASE_PATH", "data.path", "local.db"),
+  DATABASE_HOST("MINIFIER_DATABASE_HOST", "data:host", "localhost"),
+  DATABASE_USER("MINIFIER_DATABASE_USER", "data:usr", "root"),
+  DATABASE_PASSWD("MINIFIER_DATABASE_PASSWD", "data:passwd", null),
+  DATABASE_PATH("MINIFIER_DATABASE_PATH", "data:path", "local.db"),
 
-  APPLICATION_WEB_PATH("MINIFIER_APPLICATION_WEB_PATH", "web.path", "http://localhost");
+  APPLICATION_WEB_PATH("MINIFIER_APPLICATION_WEB_PATH", "web:path", "http://localhost");
 
   private final String env, arg, def;
 
