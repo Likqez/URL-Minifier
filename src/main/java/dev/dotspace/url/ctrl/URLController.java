@@ -2,7 +2,6 @@ package dev.dotspace.url.ctrl;
 
 import dev.dotspace.url.conf.ApplicationConfiguration;
 import dev.dotspace.url.response.GenerationResponse;
-import dev.dotspace.url.response.ResponseStatus;
 import dev.dotspace.url.storage.StorageManager;
 import dev.dotspace.url.util.QRCodeGenerator;
 import dev.dotspace.url.util.RandomStringUtils;
@@ -12,9 +11,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 
 @RestController
 public class URLController {
@@ -25,38 +25,33 @@ public class URLController {
   @RequestMapping(method = RequestMethod.POST, path = "/api/v1/create", consumes = "application/json")
   public GenerationResponse createMinified(@Validated @RequestBody dev.dotspace.url.response.RequestBody content) {
 
-    final AtomicReference<String> minifiedURL = new AtomicReference<>("");
-    final AtomicReference<ResponseStatus> status = new AtomicReference<>(ResponseStatus.UNKNOWN);
-    final AtomicReference<String> image = new AtomicReference<>("");
-
-    /* Validate user input */
-    if (!urlPattern.matcher(content.url()).matches())
-      status.set(ResponseStatus.INVALID_URL);
+    String minifiedURL = "";
+    String image = "";
+    final AtomicBoolean success = new AtomicBoolean(false);
 
     /* Try generations 5 times if unsuccessful */
-    IntStream.range(0, 6).forEach(value -> {
+    for (int i = 0; i <= 5; i++) {
       /* Immidiatly exit other tries after one SUCCESS */
-      if (status.get() == ResponseStatus.SUCCESS) return;
+      if (success.get()) break;
 
       /* Identifier generation */
       var uid = RandomStringUtils.random();
-      minifiedURL.set(ApplicationConfiguration.APPLICATION_WEB_PATH().concat(uid));
+      minifiedURL = ApplicationConfiguration.APPLICATION_WEB_PATH().concat(uid);
 
       /* QRcode generatio */
-      var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL.get(), 500, 500);
-      image.set(qrcode.orElse(QRCodeGenerator.SAMPLE));
+      var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL, 500, 500);
+      image = qrcode.orElse(QRCodeGenerator.SAMPLE);
 
       /* Try inserting into Storage. If uid is duplicate -> try again */
       StorageManager.newMinified(
           uid,
           content.url(),
-          image.get(),
-          () -> status.set(ResponseStatus.SUCCESS),
-          () -> status.set(ResponseStatus.UNKNOWN)
+          image,
+          () -> success.set(true)
       );
-    });
+    }
 
-    return new GenerationResponse(status.get(), minifiedURL.get(), image.get());
+    return new GenerationResponse(minifiedURL, image);
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)

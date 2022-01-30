@@ -1,6 +1,7 @@
 package dev.dotspace.url.storage.types;
 
 import dev.dotspace.url.conf.ApplicationConfiguration;
+import dev.dotspace.url.response.exception.StorageException;
 import dev.dotspace.url.storage.StorageType;
 import dev.dotspace.url.util.PreparedStatementBuilder;
 
@@ -54,10 +55,9 @@ public class LocalStorage implements StorageType {
     } catch (Exception throwables) {
       if (throwables instanceof SQLIntegrityConstraintViolationException)
         return false; //If Duplicate: don't print message
-      throwables.printStackTrace();
+      else throw new StorageException();
     }
 
-    return false;
   }
 
   @Override
@@ -72,8 +72,7 @@ public class LocalStorage implements StorageType {
       if (res.next())
         return Optional.ofNullable(res.getString("url"));
 
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
+    } catch (SQLException ignore) {
     }
 
     return Optional.empty();

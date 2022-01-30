@@ -35,15 +35,8 @@ public class StorageManager {
     return storageType.get().queryUrl(uid);
   }
 
-  public static boolean newMinified(String uid, String url, String image, Runnable success, Runnable onerror) {
-    var b = storageType.get().newMinified(uid, url, image);
-    if (b) success.run();
-    else onerror.run();
-    return b;
-  }
-
-  public static boolean newMinified(String uid, String url, String image, Runnable success) {
-    var b = storageType.get().newMinified(uid, url, image);
+  public static boolean newMinified(String uid, String url, String image, Runnable success) throws RuntimeException {
+    boolean b = storageType.get().newMinified(uid, url, image);
     if (b) success.run();
     return b;
   }
