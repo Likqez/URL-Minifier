@@ -12,7 +12,7 @@ public enum ConfigurationEntry {
   DATABASE_PASSWD("MINIFIER_DATABASE_PASSWD", "data:passwd", null),
   DATABASE_PATH("MINIFIER_DATABASE_PATH", "data:path", "local.db"),
 
-  APPLICATION_WEB_PATH("MINIFIER_APPLICATION_WEB_PATH", "web:path", "http://localhost");
+  APPLICATION_WEB_PATH("MINIFIER_APPLICATION_WEB_PATH", "web:path", "http://localhost/");
 
   private final String env, arg, def;
 
@@ -31,7 +31,7 @@ public enum ConfigurationEntry {
    * -Ddata.Host=127.0.0.1
    * -Ddata.usr=root
    *
-   * java -jar -Ddata.usr=root -Ddata.host=gsso.de URL-Minifier.jar
+   * java -jar -Ddata:usr=root -Ddata:host=gsso.de URL-Minifier.jar
    * */
 
 
