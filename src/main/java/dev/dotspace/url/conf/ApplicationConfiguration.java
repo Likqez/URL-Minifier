@@ -31,7 +31,7 @@ public class ApplicationConfiguration {
   private static String APPLICATION_WEB_PATH;
 
 
-  public static void load(String... args) {
+  public static void load() {
     DATABASE_HOST = getProperty(ConfigurationEntry.DATABASE_HOST);
     DATABASE_USER = getProperty(ConfigurationEntry.DATABASE_USER);
     DATABASE_PASSWD = getProperty(ConfigurationEntry.DATABASE_PASSWD);

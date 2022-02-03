@@ -11,7 +11,7 @@ public class UrlMinifierApplication {
   public static final String TITLE = "%s | URL-Minifier";
 
   public static void main(String[] args) {
-    ApplicationConfiguration.load(args);
+    ApplicationConfiguration.load();
     StorageManager.initialize();
     SpringApplication.run(UrlMinifierApplication.class, args);
   }
