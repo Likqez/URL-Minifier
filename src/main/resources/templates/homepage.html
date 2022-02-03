@@ -31,39 +31,7 @@
 <!-- End Main Container -->
 
 
-<!-- Response Modal -->
-<div class="modal fade" id="responseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Here you go! Generation was successful ✔</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!-- Modal Body -->
-            <div class="modal-body flex-box">
-
-                <div class="input-group mb-3">
-                    <button class="btn btn-secondary btn-sm" type="button" id="button-addon1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
-                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                        </svg>
-                    </button>
-                    <input type="text" class="form-control" id="outputUrl" aria-label="Example text with button addon" aria-describedby="button-addon1" disabled readonly>
-                </div>
-
-                <img class="mt-2" id="outputImage" width="250px" height="250px" alt="Link within QR-Code">
-            </div>
-            <!-- End Modal Body -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">🖨 Print QR-Code</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End Response Modal -->
+<div th:replace="fragments/fragments.html :: modal"></div>
 
 
 <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
