@@ -18,14 +18,14 @@ public class StorageManager {
           System.out.println("DatabaseStorage achieved successful connection.");
         },
         () -> {
-          System.err.println("Couldn't initzialise DatabaseStorage. Trying LocalStorage instead...");
+          System.err.println("Couldn't initialize DatabaseStorage. Trying LocalStorage instead...");
           new LocalStorage().established(
               local -> {
                 storageImpl.set(local);
                 System.out.println("LocalStorage achieved successful connection.");
               },
               () -> {
-                System.err.println("Couldn't initzialise LocalStorage. Using MemoryStorage instead!");
+                System.err.println("Couldn't initialize LocalStorage. Using MemoryStorage instead!");
                 storageImpl.set(new MemoryStorage());
               });
         });

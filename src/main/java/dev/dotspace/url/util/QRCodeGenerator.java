@@ -22,6 +22,7 @@ import java.util.Optional;
  */
 public class QRCodeGenerator {
 
+  @SuppressWarnings("all")
   public static final String SAMPLE = "iVBORw0KGgoAAAANSUhEUgAAANwAAADcAQMAAAAhlF3CAAAABlBMVEX///" +
                                       "8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABlklEQVRYhd2YsZHE" +
                                       "MAhF0ThQ6BJUiks7leZSXILCDTRi+YB3fLfXACjYsfU24Qt9wMS6XrRfRH" +

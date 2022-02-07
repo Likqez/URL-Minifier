@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Controller
-public class DefautController {
+public class DefaultController {
 
   @SuppressWarnings("SameReturnValue")
   @GetMapping("/")
