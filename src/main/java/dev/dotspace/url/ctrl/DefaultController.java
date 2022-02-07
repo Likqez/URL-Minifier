@@ -29,7 +29,8 @@ public class DefaultController {
       HttpServletRequest request) {
 
     Optional<String> url = StorageManager.queryUrl(uid);
-    //TODO Analytics
+
+    StorageManager.registerClick(uid, request.getRemoteAddr(), userAgent, "-");
 
     return url.map(RedirectView::new).orElseGet(() -> new RedirectView("/"));
   }
