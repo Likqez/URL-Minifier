@@ -48,7 +48,7 @@ public class MemoryStorage implements StorageImplementation {
   //**************************************/
 
   @Override
-  public void registerClick(String uid, String address, String browser, String os, String region) {
+  public void registerClick(String uid, String address, String userAgent, String region) {
     return;
   }
 }

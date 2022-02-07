@@ -93,16 +93,15 @@ public class LocalStorage implements StorageImplementation {
 
 
   @Override
-  public void registerClick(String uid, String address, String browser, String os, String region) {
-    try (var statement = connection.prepareStatement("INSERT INTO analytics(uid, address, browser, os, region) VALUES(?,?,?,?,?)")) {
+  public void registerClick(String uid, String address, String userAgent, String region) {
+    try (var statement = connection.prepareStatement("INSERT INTO analytics(uid, address, userAgent, region) VALUES(?,?,?,?)")) {
 
       PreparedStatementBuilder
           .builder(statement)
           .setString(1, uid)
           .setString(2, address)
-          .setString(3, browser)
-          .setString(4, os)
-          .setString(5, region)
+          .setString(3, userAgent)
+          .setString(4, region)
           .update();
 
     } catch (Exception ignore) {
@@ -133,8 +132,7 @@ public class LocalStorage implements StorageImplementation {
             (
                 uid      varchar(8)   not null,
                 address varchar(128)  null,
-                browser  text         null,
-                os       text         null,
+                userAgent  text         null,
                 region   text         null,
                 constraint uid_analytics_minified_uid_fk
                   foreign key (uid) references minified (uid)

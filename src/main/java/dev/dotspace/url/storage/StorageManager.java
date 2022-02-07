@@ -56,9 +56,9 @@ public class StorageManager {
 
   //**************************************/
 
-  public static void registerClick(String uid, String address, String browser, String os, String region) {
+  public static void registerClick(String uid, String address, String userAgent, String region) {
     executorService.execute(() ->
-                                storageImpl.get().registerClick(uid, address, browser, os, region));
+                                storageImpl.get().registerClick(uid, address, userAgent, region));
 
   }
 }
