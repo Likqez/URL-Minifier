@@ -6,9 +6,9 @@ import java.util.function.Consumer;
 /**
  * @see StorageManager
  */
-public interface StorageType {
+public interface StorageImplementation {
 
-  void established(Consumer<StorageType> success, Runnable onerror);
+  void established(Consumer<StorageImplementation> success, Runnable onerror);
 
   /**
    * Method to insert a new minified link into the storage system.

@@ -1,8 +1,8 @@
-package dev.dotspace.url.storage.types;
+package dev.dotspace.url.storage.impl;
 
 import dev.dotspace.url.conf.ApplicationConfiguration;
 import dev.dotspace.url.response.exception.StorageException;
-import dev.dotspace.url.storage.StorageType;
+import dev.dotspace.url.storage.StorageImplementation;
 import dev.dotspace.url.util.PreparedStatementBuilder;
 
 import java.sql.Connection;
@@ -12,36 +12,42 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class LocalStorage implements StorageType {
+public class DatabaseStorage implements StorageImplementation {
 
   private final Connection connection;
   private final boolean established;
 
-  public LocalStorage() {
-    var success = false;
+  public DatabaseStorage() {
+    var protocol = "jdbc:mariadb://";
+
     Connection conn = null;
+    var success = false;
 
     try {
-      conn = DriverManager.getConnection("jdbc:sqlite:" + ApplicationConfiguration.DATABASE_PATH());
+      conn = DriverManager.getConnection(
+          protocol + ApplicationConfiguration.DATABASE_HOST(),
+          ApplicationConfiguration.DATABASE_USER(),
+          ApplicationConfiguration.DATABASE_PASSWD()
+      );
       success = true;
     } catch (SQLException ignore) {
     } finally {
-      this.established = success;
       this.connection = conn;
+      this.established = success;
     }
 
     if (this.established) createSchemaStructure();
   }
 
   @Override
-  public void established(Consumer<StorageType> success, Runnable onerror) {
+  public void established(Consumer<StorageImplementation> success, Runnable onerror) {
     if (this.established) success.accept(this);
     else onerror.run();
   }
 
   @Override
   public boolean newMinified(String uid, String url, String image) {
-    try (var statement = connection.prepareStatement("INSERT INTO minified(uid,url,image) VALUES (?,?,?)")) {
+    try (var statement = connection.prepareStatement("INSERT INTO url_minifier.minified(uid,url,image) VALUES(?,?,?)")) {
 
       var res = PreparedStatementBuilder
           .builder(statement)
@@ -60,9 +66,8 @@ public class LocalStorage implements StorageType {
 
   }
 
-  @Override
   public Optional<String> queryUrl(String uid) {
-    try (var statement = connection.prepareStatement("SELECT * FROM minified WHERE uid = ?")) {
+    try (var statement = connection.prepareStatement("SELECT * FROM url_minifier.minified WHERE uid = ?")) {
 
       var res = PreparedStatementBuilder
           .builder(statement)
@@ -76,23 +81,28 @@ public class LocalStorage implements StorageType {
     }
 
     return Optional.empty();
-
   }
 
-  @Override
   public boolean deleteMinified(String uid) {
     return false;
   }
 
-  @Override
   public boolean deleteAllMinified(String url) {
     return false;
   }
 
+  /**
+   * Tries to create the needed tables.
+   */
   private void createSchemaStructure() {
+    try (var statement = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS url_minifier;")) {
+      statement.executeUpdate();
+    } catch (SQLException ignore) {
+    }
+
     try (var statement = connection.prepareStatement(
         """
-            create table IF NOT EXISTS main.minified
+            create table IF NOT EXISTS url_minifier.minified
             (
                 uid   varchar(8) not null
                     primary key,
@@ -109,7 +119,7 @@ public class LocalStorage implements StorageType {
 
     try (var statement = connection.prepareStatement(
         """
-              create table IF NOT EXISTS main.analytics
+              create table IF NOT EXISTS url_minifier.analytics
             (
                 uid      varchar(8)   not null,
                 address varchar(128)  null,
@@ -117,7 +127,7 @@ public class LocalStorage implements StorageType {
                 os       text         null,
                 region   text         null,
                 constraint uid_analytics_minified_uid_fk
-                  foreign key (uid) references minified (uid)
+                  foreign key (uid) references url_minifier.minified (uid)
                     on update cascade on delete cascade
             );
              """
@@ -127,4 +137,5 @@ public class LocalStorage implements StorageType {
     }
 
   }
+
 }

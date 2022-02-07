@@ -1,12 +1,12 @@
-package dev.dotspace.url.storage.types;
+package dev.dotspace.url.storage.impl;
 
-import dev.dotspace.url.storage.StorageType;
+import dev.dotspace.url.storage.StorageImplementation;
 
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class MemoryStorage implements StorageType {
+public class MemoryStorage implements StorageImplementation {
 
   private final HashMap<String, String> minifiedUrl;
   private final HashMap<String, String> minifiedImage;
@@ -17,7 +17,7 @@ public class MemoryStorage implements StorageType {
   }
 
   @Override
-  public void established(Consumer<StorageType> success, Runnable onerror) {
+  public void established(Consumer<StorageImplementation> success, Runnable onerror) {
     success.accept(this);
   }
 
