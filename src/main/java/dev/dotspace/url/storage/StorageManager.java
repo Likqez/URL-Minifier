@@ -5,11 +5,16 @@ import dev.dotspace.url.storage.impl.LocalStorage;
 import dev.dotspace.url.storage.impl.MemoryStorage;
 
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class StorageManager {
 
   private static final AtomicReference<StorageImplementation> storageImpl = new AtomicReference<>();
+
+  //ExecutorService for asynchronous execution
+  private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
   public static void initialize() {
     new DatabaseStorage().established(
@@ -49,4 +54,11 @@ public class StorageManager {
     return storageImpl.get().deleteMinified(url);
   }
 
+  //**************************************/
+
+  public static void registerClick(String uid, String address, String browser, String os, String region) {
+    executorService.execute(() ->
+                                storageImpl.get().registerClick(uid, address, browser, os, region));
+
+  }
 }

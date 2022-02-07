@@ -46,4 +46,15 @@ public interface StorageImplementation {
    * @return wether the operation was success
    */
   boolean deleteAllMinified(String url);
+
+  /**
+   * Method to insert a dataset into analytic storage.
+   *
+   * @param uid the identifier
+   * @param address the users address
+   * @param browser the used agent
+   * @param os the operating system
+   * @param region the region (from address)
+   */
+  void registerClick(String uid, String address, String browser, String os, String region);
 }

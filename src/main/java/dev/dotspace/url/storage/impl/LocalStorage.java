@@ -89,6 +89,26 @@ public class LocalStorage implements StorageImplementation {
     return false;
   }
 
+  //**************************************/
+
+
+  @Override
+  public void registerClick(String uid, String address, String browser, String os, String region) {
+    try (var statement = connection.prepareStatement("INSERT INTO analytics(uid, address, browser, os, region) VALUES(?,?,?,?,?)")) {
+
+      PreparedStatementBuilder
+          .builder(statement)
+          .setString(1, uid)
+          .setString(2, address)
+          .setString(3, browser)
+          .setString(4, os)
+          .setString(5, region)
+          .update();
+
+    } catch (Exception ignore) {
+    }
+  }
+
   private void createSchemaStructure() {
     try (var statement = connection.prepareStatement(
         """

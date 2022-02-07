@@ -1,6 +1,7 @@
 package dev.dotspace.url.storage.impl;
 
 import dev.dotspace.url.storage.StorageImplementation;
+import dev.dotspace.url.util.PreparedStatementBuilder;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -42,5 +43,12 @@ public class MemoryStorage implements StorageImplementation {
   @Override
   public boolean deleteAllMinified(String url) {
     return false;
+  }
+
+  //**************************************/
+
+  @Override
+  public void registerClick(String uid, String address, String browser, String os, String region) {
+    return;
   }
 }
