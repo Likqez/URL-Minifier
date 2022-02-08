@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.1_12-jre-alpine
+FROM azul/zulu-openjdk-alpine:17-jre
 
 RUN mkdir /opt/app
 
