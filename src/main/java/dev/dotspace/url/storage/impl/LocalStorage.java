@@ -134,6 +134,7 @@ public class LocalStorage implements StorageImplementation {
                 address varchar(128)  null,
                 userAgent  text         null,
                 region   text         null,
+                accesstime timestamp default CURRENT_TIMESTAMP not null,
                 constraint uid_analytics_minified_uid_fk
                   foreign key (uid) references minified (uid)
                     on update cascade on delete cascade
