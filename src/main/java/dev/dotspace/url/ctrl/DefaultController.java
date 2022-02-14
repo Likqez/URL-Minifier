@@ -28,7 +28,7 @@ public class DefaultController {
 
     Optional<String> url = StorageManager.queryUrl(uid);
 
-    StorageManager.registerClick(uid, request.getRemoteAddr(), userAgent, "-");
+    StorageManager.registerClick(uid, remoteAddr, userAgent, "-");
 
     return url.map(RedirectView::new).orElseGet(() -> new RedirectView("/"));
   }
