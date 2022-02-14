@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +22,9 @@ public class DefaultController {
   }
 
   @GetMapping("/{uid}")
-  public RedirectView handleRedirect(
-      @PathVariable String uid,
-      @RequestHeader(value = "User-Agent") String userAgent,
-      HttpServletRequest request) {
+  public RedirectView handleRedirect(@PathVariable String uid, HttpServletRequest request) {
+    final var userAgent = request.getHeader("User-Agent");
+    //final var remoteAddr = request.getHeader("X-Forward-For") != null ? request.getHeader("X-Forward-For") : request.getRemoteAddr();
 
     Optional<String> url = StorageManager.queryUrl(uid);
 
