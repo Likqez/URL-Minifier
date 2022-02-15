@@ -24,11 +24,11 @@ public class DefaultController {
   @GetMapping("/{uid}")
   public RedirectView handleRedirect(@PathVariable String uid, HttpServletRequest request) {
     final var userAgent = request.getHeader("User-Agent");
-    final var remoteAddr = request.getHeader("X-Forward-For") != null ? request.getHeader("X-Forward-For") : request.getRemoteAddr();
+    final var remoteAddr = request.getHeader("cf-connecting-ip") != null ? request.getHeader("cf-connecting-ip") : request.getRemoteAddr();
 
     Optional<String> url = StorageManager.queryUrl(uid);
 
-    StorageManager.registerClick(uid, remoteAddr, userAgent, "-");
+    StorageManager.registerClick(uid, remoteAddr, userAgent, request.getHeader("cf-ipcountry"));
 
     return url.map(RedirectView::new).orElseGet(() -> new RedirectView("/"));
   }
