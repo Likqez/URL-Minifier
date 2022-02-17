@@ -21,6 +21,12 @@ public class DefaultController {
     return "homepage";
   }
 
+  @GetMapping("/a/{uid}")
+  public String analytics(Model model, @PathVariable String uid) {
+    model.addAttribute("title", UrlMinifierApplication.TITLE.formatted("Analytics"));
+    return "analytics";
+  }
+
   @GetMapping("/{uid}")
   public RedirectView handleRedirect(@PathVariable String uid, HttpServletRequest request) {
     final var userAgent = request.getHeader("User-Agent");
