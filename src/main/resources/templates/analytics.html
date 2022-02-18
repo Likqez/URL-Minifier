@@ -15,17 +15,17 @@
 <!-- Main Container -->
 <main class="container text-center">
 
-    <div class="row g-6 mb-6">
+    <div class="row g-5 mb-6">
         <div class="col-xl-3 col-sm-6 col-12">
             <div class="card text-start" style="border-radius: .75rem">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col"><span class="h6 text-muted fs-6 d-block mb-2">New projects</span>
-                            <span class="h3 fw-bold mb-0">215</span>
+                        <div class="col"><span class="h6 text-muted fs-6 d-block mb-2">Total clicks</span>
+                            <span th:text="*{totalClicks}" class="h3 fw-bold mb-0">0</span>
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-primary text-white fs-2 rounded-circle">
-                                <i class="bi bi-people"></i>
+                                <i class="bi bi-hand-index-thumb"></i>
                             </div>
                         </div>
                     </div>
@@ -42,12 +42,12 @@
             <div class="card text-start" style="border-radius: .75rem">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col"><span class="h6 text-muted fs-6 d-block mb-2">New projects</span>
-                            <span class="h3 fw-bold mb-0">215</span>
+                        <div class="col"><span class="h6 text-muted fs-6 d-block mb-2">Unique clicks</span>
+                            <span th:text="*{uniqueClicks}" class="h3 fw-bold mb-0">215</span>
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-primary text-white fs-2 rounded-circle">
-                                <i class="bi bi-people"></i>
+                                <i class="bi bi-person"></i>
                             </div>
                         </div>
                     </div>
@@ -64,12 +64,12 @@
             <div class="card text-start" style="border-radius: .75rem">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col"><span class="h6 text-muted fs-6 d-block mb-2">New projects</span>
-                            <span class="h3 fw-bold mb-0">215</span>
+                        <div class="col"><span class="h6 text-muted fs-6 d-block mb-2">Top region</span>
+                            <span th:text="*{topRegion}" class="h3 fw-bold mb-0">DE</span>
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-primary text-white fs-2 rounded-circle">
-                                <i class="bi bi-people"></i>
+                                <i class="bi bi-pin-map"></i>
                             </div>
                         </div>
                     </div>
@@ -86,12 +86,12 @@
             <div class="card text-start" style="border-radius: .75rem">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col"><span class="h6 text-muted fs-6 d-block mb-2">New projects</span>
-                            <span class="h3 fw-bold mb-0">215</span>
+                        <div class="col"><span class="h6 text-muted fs-6 d-block mb-2">Top day</span>
+                            <span th:text="*{topDay}" class="h3 fw-bold mb-0">215</span>
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-primary text-white fs-2 rounded-circle">
-                                <i class="bi bi-people"></i>
+                                <i class="bi bi-award"></i>
                             </div>
                         </div>
                     </div>
@@ -104,6 +104,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row g-5 mb-6">
+
     </div>
 
     <div th:replace="fragments/fragments.html :: footer"></div>
