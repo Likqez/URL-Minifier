@@ -26,6 +26,7 @@ dependencies {
     /* Libraries for Frontend */
     implementation 'org.webjars:bootstrap:5.1.1'
     implementation 'org.webjars:jquery:3.6.0'
+    implementation 'org.webjars.npm:bootstrap-icons:1.8.0'
 
     /* Utils */
     implementation 'com.google.zxing:javase:3.4.1' //For QR-Code generation

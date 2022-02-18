@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.1/css/bootstrap.min.css} "/>
-    <link th:rel="stylesheet" th:href="@{/css/homepage.css}">
-</head>
 <body>
 
 <!-- Response Modal -->
@@ -34,7 +29,7 @@
             <!-- End Modal Body -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">🖨 Print QR-Code</button>
+                <button type="button" class="btn btn-primary"><i class="bi bi-printer-fill"></i> Print QR-Code</button>
             </div>
         </div>
     </div>
@@ -47,7 +42,7 @@
 
 <!-- Footer -->
 <div th:fragment="footer" class="mt-5">
-    <p class="mb-3 text-muted">Made with ❤ by <a href="https://github.com/Likqez">Lukas Lanzner</a></p>
+    <p class="mb-3 text-muted">Made with <i class="bi bi-heart-fill text-danger"></i> by <a href="https://github.com/Likqez">Lukas Lanzner</a></p>
     <p class="text-muted">© 2022</p>
 </div>
 <!-- End Footer -->
