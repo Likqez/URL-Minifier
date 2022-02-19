@@ -114,7 +114,7 @@ public class LocalStorage implements StorageImplementation {
 
   @Override
   public List<PageClick> retrieveAnalytics(String uid) {
-    try (var statement = connection.prepareStatement("SELECT * FROM analytics WHERE uid = ?")) {
+    try (var statement = connection.prepareStatement("SELECT * FROM analytics WHERE uid = ? ORDER BY accesstime DESC")) {
 
       var res = PreparedStatementBuilder
           .builder(statement)
