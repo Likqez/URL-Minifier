@@ -24,10 +24,14 @@ public class DefaultController {
   @GetMapping("/a/{uid}")
   public String analytics(Model model, @PathVariable String uid) {
     model.addAttribute("title", UrlMinifierApplication.TITLE.formatted("Analytics"));
-    model.addAttribute("totalClicks", 10);
-    model.addAttribute("uniqueClicks",3);
-    model.addAttribute("topRegion","DE");
-    model.addAttribute("topDay","Jan. 1. 2022");
+
+    var allClicks = StorageManager.retrieveAnalytics(uid);
+    model.addAttribute("pageClicks", allClicks);
+
+    model.addAttribute("totalClicks", allClicks.size());
+    model.addAttribute("uniqueClicks", 3);
+    model.addAttribute("topRegion", "DE");
+    model.addAttribute("topDay", "Jan. 1. 2022");
 
 
     return "analytics";

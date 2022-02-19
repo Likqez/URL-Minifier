@@ -1,9 +1,10 @@
 package dev.dotspace.url.storage.impl;
 
+import dev.dotspace.url.response.PageClick;
 import dev.dotspace.url.storage.StorageImplementation;
-import dev.dotspace.url.util.PreparedStatementBuilder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -50,5 +51,10 @@ public class MemoryStorage implements StorageImplementation {
   @Override
   public void registerClick(String uid, String address, String userAgent, String region) {
     return;
+  }
+
+  @Override
+  public List<PageClick> retrieveAnalytics(String uid) {
+    return null;
   }
 }

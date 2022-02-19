@@ -1,5 +1,8 @@
 package dev.dotspace.url.storage;
 
+import dev.dotspace.url.response.PageClick;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -56,4 +59,12 @@ public interface StorageImplementation {
    * @param region the region (from address)
    */
   void registerClick(String uid, String address, String userAgent, String region);
+
+  /**
+   * Retrieves all analytic data from specified identifier
+   *
+   * @param uid the identifier
+   * @return a collection containing all clicks
+   */
+  List<PageClick> retrieveAnalytics(String uid);
 }

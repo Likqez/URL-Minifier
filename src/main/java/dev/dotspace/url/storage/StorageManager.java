@@ -1,9 +1,11 @@
 package dev.dotspace.url.storage;
 
+import dev.dotspace.url.response.PageClick;
 import dev.dotspace.url.storage.impl.DatabaseStorage;
 import dev.dotspace.url.storage.impl.LocalStorage;
 import dev.dotspace.url.storage.impl.MemoryStorage;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,5 +62,9 @@ public class StorageManager {
     executorService.execute(() ->
                                 storageImpl.get().registerClick(uid, address, userAgent, region));
 
+  }
+
+  public static List<PageClick> retrieveAnalytics(String uid) {
+    return storageImpl.get().retrieveAnalytics(uid);
   }
 }
