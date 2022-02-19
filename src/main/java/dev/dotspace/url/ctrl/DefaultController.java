@@ -1,6 +1,7 @@
 package dev.dotspace.url.ctrl;
 
 import dev.dotspace.url.UrlMinifierApplication;
+import dev.dotspace.url.response.PageClick;
 import dev.dotspace.url.storage.StorageManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +32,9 @@ public class DefaultController {
     var allClicks = StorageManager.retrieveAnalytics(uid);
     model.addAttribute("pageClicks", allClicks);
 
-    model.addAttribute("totalClicks", allClicks.size());
-    model.addAttribute("uniqueClicks", 3);
+    var uniqueClicks = allClicks.stream().map(PageClick::address).distinct().count();
+    model.addAttribute("uniqueClicks", uniqueClicks);
+
     model.addAttribute("topRegion", "DE");
     model.addAttribute("topDay", "Jan. 1. 2022");
 
