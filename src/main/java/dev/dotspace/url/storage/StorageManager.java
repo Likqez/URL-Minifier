@@ -42,10 +42,11 @@ public class StorageManager {
     return storageImpl.get().queryUrl(uid);
   }
 
-  public static boolean newMinified(String uid, String url, String image, Runnable success) throws RuntimeException {
-    boolean b = storageImpl.get().newMinified(uid, url, image);
-    if (b) success.run();
-    return b;
+  public static void newMinified(String uid, String url, String image, Runnable success) throws RuntimeException {
+    executorService.execute(() -> {
+      boolean b = storageImpl.get().newMinified(uid, url, image);
+      if (b) success.run();
+    });
   }
 
   public static boolean deleteMinified(String uid) {
