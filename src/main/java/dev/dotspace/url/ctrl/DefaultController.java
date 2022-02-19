@@ -25,6 +25,9 @@ public class DefaultController {
   public String analytics(Model model, @PathVariable String uid) {
     model.addAttribute("title", UrlMinifierApplication.TITLE.formatted("Analytics"));
 
+    if (StorageManager.queryUrl(uid).isEmpty())
+      return "homepage";
+
     var allClicks = StorageManager.retrieveAnalytics(uid);
     model.addAttribute("pageClicks", allClicks);
 
