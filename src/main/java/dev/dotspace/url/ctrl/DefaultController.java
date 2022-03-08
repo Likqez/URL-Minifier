@@ -38,8 +38,6 @@ public class DefaultController {
     var uniqueClicks = allClicks.stream().map(PageClick::address).distinct().count();
     model.addAttribute("uniqueClicks", uniqueClicks);
 
-
-    model.addAttribute("topRegion", "N/A");
     allClicks.stream()
         .map(PageClick::region)
         .filter(s -> !s.equals("N/A"))
@@ -47,7 +45,9 @@ public class DefaultController {
         .entrySet()
         .stream()
         .max(Map.Entry.comparingByValue())
-        .ifPresent(s -> model.addAttribute("topRegion",s));
+        .ifPresentOrElse(
+            s -> model.addAttribute("topRegion", s.getKey()),
+            () -> model.addAttribute("topRegion", "N/A"));
 
     model.addAttribute("topDay", "Jan. 1. 2022");
 
