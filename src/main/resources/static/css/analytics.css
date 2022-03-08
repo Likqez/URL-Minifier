@@ -38,3 +38,7 @@ main {
     font-size: 1.7142857143rem;
     line-height: 1;
 }
+
+.card{
+    border-radius: .75rem;
+}

@@ -1,6 +1,7 @@
 package dev.dotspace.url.storage.impl;
 
 import dev.dotspace.url.conf.ApplicationConfiguration;
+import dev.dotspace.url.response.PageClick;
 import dev.dotspace.url.response.exception.StorageException;
 import dev.dotspace.url.storage.StorageImplementation;
 import dev.dotspace.url.util.PreparedStatementBuilder;
@@ -9,6 +10,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -108,6 +112,32 @@ public class LocalStorage implements StorageImplementation {
     }
   }
 
+  @Override
+  public List<PageClick> retrieveAnalytics(String uid) {
+    try (var statement = connection.prepareStatement("SELECT * FROM analytics WHERE uid = ? ORDER BY accesstime DESC")) {
+
+      var res = PreparedStatementBuilder
+          .builder(statement)
+          .setString(1, uid)
+          .query();
+
+      List<PageClick> clickList = new ArrayList<>();
+      while (res.next()) {
+        clickList.add(new PageClick(
+            res.getString("address"),
+            res.getString("userAgent"),
+            res.getString("region"),
+            res.getString("accesstime")
+        ));
+      }
+
+      return clickList;
+    } catch (Exception ignore) {
+      return Collections.emptyList();
+    }
+
+  }
+
   private void createSchemaStructure() {
     try (var statement = connection.prepareStatement(
         """
@@ -133,7 +163,7 @@ public class LocalStorage implements StorageImplementation {
                 uid      varchar(8)   not null,
                 address varchar(128)  null,
                 userAgent  text         null,
-                region   text         null,
+                region   text         not null default 'Unknown',
                 accesstime timestamp default CURRENT_TIMESTAMP not null,
                 constraint uid_analytics_minified_uid_fk
                   foreign key (uid) references minified (uid)
