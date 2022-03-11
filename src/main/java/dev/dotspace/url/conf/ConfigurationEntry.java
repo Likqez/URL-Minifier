@@ -21,18 +21,14 @@ public enum ConfigurationEntry {
     this.arg = arg;
     this.def = def;
   }
-
-
-
   /*
-   * Beispiel Args:
+   * Example to run with args:
    *
-   * -Dserver.port=8888
-   * -Ddata.Host=127.0.0.1
-   * -Ddata.usr=root
+   * -Dserver:port=8888
+   * -Ddata:host=127.0.0.1
+   * -Ddata:usr=root
    *
    * java -jar -Ddata:usr=root -Ddata:host=gsso.de URL-Minifier.jar
    * */
-
 
 }

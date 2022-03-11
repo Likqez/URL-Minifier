@@ -31,6 +31,11 @@ public class ApplicationConfiguration {
   private static String APPLICATION_WEB_PATH;
 
 
+  /**
+   * Loads the configuration values from application arguments.
+   * Each argument will be tested. If there is no value specified
+   * it will be looked up in the systems environmetal varbiables or use a default value.
+   */
   public static void load() {
     DATABASE_HOST = getProperty(ConfigurationEntry.DATABASE_HOST);
     DATABASE_USER = getProperty(ConfigurationEntry.DATABASE_USER);
@@ -57,11 +62,12 @@ public class ApplicationConfiguration {
    * Retrieving value from system environment.
    * If no value is found, using default values specified in
    * {@link ConfigurationEntry#def()}
+   *
    * @param entry the configurationEntry to retrieve the value
    * @return the configuration value
    * @see ApplicationConfiguration#getProperty(ConfigurationEntry)
    */
-  private static String envOrDef(ConfigurationEntry entry){
+  private static String envOrDef(ConfigurationEntry entry) {
     return System.getenv().getOrDefault(entry.env(), entry.def());
   }
 

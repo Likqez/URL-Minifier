@@ -11,6 +11,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * For explanations
+ * @see StorageImplementation
+ */
 public class StorageManager {
 
   private static final AtomicReference<StorageImplementation> storageImpl = new AtomicReference<>();

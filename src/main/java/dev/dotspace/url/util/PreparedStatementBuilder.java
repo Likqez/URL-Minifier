@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+/**
+ * Utility class to create PreparedStatements using chained method calls.
+ */
 public class PreparedStatementBuilder {
 
   private final PreparedStatement statement;
