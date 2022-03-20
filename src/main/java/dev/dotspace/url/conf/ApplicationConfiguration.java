@@ -3,6 +3,12 @@ package dev.dotspace.url.conf;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
+/**
+ * Class managing and serving all configuration details.
+ * <p>
+ * Example to run with args: <br>
+ * <code>java -jar -Ddata:usr=root -Ddata:host=gsso.de URL-Minifier.jar</code>
+ */
 @Accessors(fluent = true, chain = true)
 public class ApplicationConfiguration {
 

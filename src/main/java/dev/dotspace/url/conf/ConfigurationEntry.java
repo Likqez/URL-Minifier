@@ -3,6 +3,10 @@ package dev.dotspace.url.conf;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
+/**
+ * Class providing keys to lookup configuration data.
+ * Also provides the default value.
+ */
 @Getter
 @Accessors(fluent = true)
 public enum ConfigurationEntry {
@@ -21,14 +25,5 @@ public enum ConfigurationEntry {
     this.arg = arg;
     this.def = def;
   }
-  /*
-   * Example to run with args:
-   *
-   * -Dserver:port=8888
-   * -Ddata:host=127.0.0.1
-   * -Ddata:usr=root
-   *
-   * java -jar -Ddata:usr=root -Ddata:host=gsso.de URL-Minifier.jar
-   * */
 
 }
