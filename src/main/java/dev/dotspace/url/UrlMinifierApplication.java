@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class UrlMinifierApplication {
 
   public static final String TITLE = "%s | URL-Minifier";
+  //TODO remove title
 
   public static void main(String[] args) {
     ApplicationConfiguration.load();
