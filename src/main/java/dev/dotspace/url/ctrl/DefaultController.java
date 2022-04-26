@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,15 +39,21 @@ public class DefaultController {
    *
    * @param model the autoinvoced model to pass values to thymleaf
    * @param uid   the uid to analyse
+   * @param a     the required URL parameter to show the analytic page
    * @return the "analytics" template or the "homepage", if something failed
    */
-  @GetMapping("/a/{uid}")
-  public String analytics(Model model, @PathVariable String uid) {
-    model.addAttribute("title", UrlMinifierApplication.TITLE.formatted("Analytics"));
+  @GetMapping(value = "/{uid}", params = "a")
+  public String analytics(Model model, @PathVariable String uid, @RequestParam String a) {
+    /* Checks if Analytic page was requested */
+    if (a == null)
+      return "homepage";
 
     /* Checks wether uid exists, if not display homepage */
     if (StorageManager.queryUrl(uid).isEmpty())
       return "homepage";
+
+    /* Set tab title */
+    model.addAttribute("title", UrlMinifierApplication.TITLE.formatted("Analytics"));
 
     /* Collect all PageClicks from analytic database */
     var allClicks = StorageManager.retrieveAnalytics(uid);
