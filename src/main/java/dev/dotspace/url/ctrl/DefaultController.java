@@ -32,7 +32,7 @@ public class DefaultController {
   }
 
   /**
-   * Handles incoming GET requests on the "/a/xxxxxx" path.
+   * Handles incoming GET requests on the "/xxxxxx" path. While requiring the "a" param.
    * This function will retrieve all analytic data from the specified uid
    * to analyse its usage. The total and unique Clicks, aswell as the most
    * connected region and the most active day will be added to the output.
