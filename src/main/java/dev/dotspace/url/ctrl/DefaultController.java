@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -75,7 +82,20 @@ public class DefaultController {
             s -> model.addAttribute("topRegion", s.getKey()),
             () -> model.addAttribute("topRegion", "N/A"));
 
-    model.addAttribute("topDay", "Jan. 1. 2022");
+    /* Filter for most common day */
+    DateTimeFormatter topDayFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+
+    allClicks.stream()
+        .map(PageClick::accessTime)
+        .map(Timestamp::toInstant)
+        .map((i) -> LocalDate.ofInstant(i, ZoneId.of("UTC")))
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+        .entrySet()
+        .stream()
+        .max(Map.Entry.comparingByValue())
+        .ifPresentOrElse(
+            s -> model.addAttribute("topDay", s.getKey().format(topDayFormatter)),
+            () -> model.addAttribute("topDay", "N/A"));
 
     return "analytics";
   }
