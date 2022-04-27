@@ -6,10 +6,8 @@ import dev.dotspace.url.response.exception.StorageException;
 import dev.dotspace.url.storage.StorageImplementation;
 import dev.dotspace.url.util.PreparedStatementBuilder;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -100,7 +98,7 @@ public class DatabaseStorage implements StorageImplementation {
 
   @Override
   public void registerClick(String uid, String address, String userAgent, String region) {
-    try (var statement = connection.prepareStatement("INSERT INTO url_minifier.analytics(uid, address, userAgent, region) VALUES(?,?,?,?)")) {
+    try (var statement = connection.prepareStatement("INSERT INTO url_minifier.analytics(uid, address, userAgent, region, accesstime) VALUES(?, ?,?,?,?)")) {
 
       PreparedStatementBuilder
           .builder(statement)
@@ -108,6 +106,7 @@ public class DatabaseStorage implements StorageImplementation {
           .setString(2, address)
           .setString(3, userAgent)
           .setString(4, region)
+          .setTimestamp(5, Timestamp.from(Instant.now()))
           .update();
 
     } catch (Exception ignore) {
@@ -129,7 +128,7 @@ public class DatabaseStorage implements StorageImplementation {
             res.getString("address"),
             res.getString("userAgent"),
             res.getString("region"),
-            res.getString("accesstime")
+            res.getTimestamp("accesstime")
         ));
       }
 
@@ -174,7 +173,7 @@ public class DatabaseStorage implements StorageImplementation {
                 address varchar(128)  null,
                 userAgent  text         null,
                 region   text         not null default 'Unknown',
-                accesstime timestamp default CURRENT_TIMESTAMP not null,
+                accesstime timestamp not null,
                 constraint uid_analytics_minified_uid_fk
                   foreign key (uid) references url_minifier.minified (uid)
                     on update cascade on delete cascade

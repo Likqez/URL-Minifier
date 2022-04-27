@@ -3,6 +3,7 @@ package dev.dotspace.url.util;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 
 /**
@@ -38,6 +39,16 @@ public class PreparedStatementBuilder {
 
   public PreparedStatementBuilder setBool(int i, boolean v) throws SQLException {
     this.statement.setBoolean(i, v);
+    return this;
+  }
+
+  public PreparedStatementBuilder setTimestamp(int i, Timestamp v) throws SQLException {
+    this.statement.setTimestamp(i, v);
+    return this;
+  }
+
+  public PreparedStatementBuilder setObject(int i, Object v) throws SQLException {
+    this.statement.setObject(i, v);
     return this;
   }
 
