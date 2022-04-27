@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,7 +37,7 @@ public class URLController {
       minifiedURL = ApplicationConfiguration.APPLICATION_WEB_PATH().concat(uid);
 
       /* QR-Code generation */
-      var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL, 500, 500);
+      var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL, 500, 500, null);
       image = qrcode.orElse(QRCodeGenerator.SAMPLE);
 
       /* Try inserting into Storage. If uid is duplicate -> try again */
