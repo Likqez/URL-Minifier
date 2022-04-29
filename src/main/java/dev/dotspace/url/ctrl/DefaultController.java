@@ -33,8 +33,7 @@ public class DefaultController {
    * @return the html template "homepage"
    */
   @GetMapping("/")
-  public String homepage(Model model) {
-    model.addAttribute("title", UrlMinifierApplication.TITLE.formatted("Dashboard"));
+  public String homepage() {
     return "homepage";
   }
 
@@ -58,9 +57,6 @@ public class DefaultController {
     /* Checks wether uid exists, if not display homepage */
     if (StorageManager.queryUrl(uid).isEmpty())
       return "homepage";
-
-    /* Set tab title */
-    model.addAttribute("title", UrlMinifierApplication.TITLE.formatted("Analytics"));
 
     /* Collect all PageClicks from analytic database */
     var allClicks = StorageManager.retrieveAnalytics(uid);
