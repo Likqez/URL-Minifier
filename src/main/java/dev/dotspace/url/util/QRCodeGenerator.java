@@ -112,7 +112,7 @@ public class QRCodeGenerator {
    */
   public static Optional<String> getQRCodeBase64(String text, int width, int height, String overlayImage) {
     try {
-      var bytes = getQRCodeImage(text, width, height, new URL(overlayImage));
+      var bytes = getQRCodeImage(text, width, height, overlayImage == null ? null : new URL(overlayImage));
       return Optional.of(Base64.getEncoder().encodeToString(bytes));
     } catch (WriterException | IOException e) {
       e.printStackTrace();
