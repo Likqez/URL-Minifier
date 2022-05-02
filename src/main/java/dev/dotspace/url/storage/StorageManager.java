@@ -63,9 +63,9 @@ public class StorageManager {
 
   //**************************************/
 
-  public static void registerClick(String uid, String address, String userAgent, String region) {
+  public static void registerClick(String uid, String address, String userAgent, String region, boolean wasScanned) {
     executorService.execute(() ->
-                                storageImpl.get().registerClick(uid, address, userAgent, region));
+                                storageImpl.get().registerClick(uid, address, userAgent, region, wasScanned));
 
   }
 

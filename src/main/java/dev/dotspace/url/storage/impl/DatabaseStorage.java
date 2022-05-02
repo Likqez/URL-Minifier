@@ -97,8 +97,8 @@ public class DatabaseStorage implements StorageImplementation {
 
 
   @Override
-  public void registerClick(String uid, String address, String userAgent, String region) {
-    try (var statement = connection.prepareStatement("INSERT INTO url_minifier.analytics(uid, address, userAgent, region, accesstime) VALUES(?, ?,?,?,?)")) {
+  public void registerClick(String uid, String address, String userAgent, String region, boolean wasScanned) {
+    try (var statement = connection.prepareStatement("INSERT INTO url_minifier.analytics(uid, address, userAgent, region, accesstime, wasScanned) VALUES(?,?,?,?,?,?)")) {
 
       PreparedStatementBuilder
           .builder(statement)
@@ -107,6 +107,7 @@ public class DatabaseStorage implements StorageImplementation {
           .setString(3, userAgent)
           .setString(4, region)
           .setTimestamp(5, Timestamp.from(Instant.now()))
+          .setBool(6, wasScanned)
           .update();
 
     } catch (Exception ignore) {
@@ -174,6 +175,7 @@ public class DatabaseStorage implements StorageImplementation {
                 userAgent  text         null,
                 region   text         not null default 'Unknown',
                 accesstime timestamp not null,
+                wasScanned int not null,
                 constraint uid_analytics_minified_uid_fk
                   foreign key (uid) references url_minifier.minified (uid)
                     on update cascade on delete cascade

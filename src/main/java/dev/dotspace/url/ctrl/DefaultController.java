@@ -29,7 +29,6 @@ public class DefaultController {
   /**
    * Handles incoming GET requests on global path.
    *
-   * @param model the autoinvoced model to pass values to thymleaf
    * @return the html template "homepage"
    */
   @GetMapping("/")
@@ -105,8 +104,8 @@ public class DefaultController {
    * @param request the autoinvoked serverletrequest
    * @return a redirectView pointing to an url
    */
-  @GetMapping("/{uid}")
-  public RedirectView handleRedirect(@PathVariable String uid, HttpServletRequest request) {
+  @GetMapping(value = "/{uid}")
+  public RedirectView handleRedirect(@PathVariable String uid, HttpServletRequest request, @RequestParam(required = false) String q) {
     final var userAgent = request.getHeader("User-Agent");
     /* Retrieve address from cloudflare header, if specified. Else from servelet request */
     final var remoteAddr = request.getHeader("cf-connecting-ip") != null ? request.getHeader("cf-connecting-ip") : request.getRemoteAddr();
@@ -117,7 +116,7 @@ public class DefaultController {
     Optional<String> url = StorageManager.queryUrl(uid);
 
     /* Save analytic data */
-    StorageManager.registerClick(uid, remoteAddr, userAgent, region);
+    StorageManager.registerClick(uid, remoteAddr, userAgent, region, q != null);
 
     /* if found, redirect user to url, else to the homepage */
     return url.map(RedirectView::new).orElseGet(() -> new RedirectView("/"));

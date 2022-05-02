@@ -37,7 +37,7 @@ public class URLController {
       minifiedURL = ApplicationConfiguration.APPLICATION_WEB_PATH().concat(uid);
 
       /* QR-Code generation */
-      var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL, 500, 500, null);
+      var qrcode = QRCodeGenerator.getQRCodeBase64(minifiedURL + "?q", 500, 500, null);
       image = qrcode.orElse(QRCodeGenerator.SAMPLE);
 
       /* Try inserting into Storage. If uid is duplicate -> try again */

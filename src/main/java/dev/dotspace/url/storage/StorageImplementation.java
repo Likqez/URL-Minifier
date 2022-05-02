@@ -53,12 +53,13 @@ public interface StorageImplementation {
   /**
    * Method to insert a dataset into analytic storage.
    *
-   * @param uid the identifier
-   * @param address the users address
+   * @param uid       the identifier
+   * @param address   the users address
    * @param userAgent the used agent
-   * @param region the region (from address)
+   * @param region    the region (from address)
+   * @param scanned   the boolean differing between a scanned and normal click
    */
-  void registerClick(String uid, String address, String userAgent, String region);
+  void registerClick(String uid, String address, String userAgent, String region, boolean scanned);
 
   /**
    * Retrieves all analytic data from specified identifier
