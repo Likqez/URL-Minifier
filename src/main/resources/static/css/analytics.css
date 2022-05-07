@@ -28,11 +28,11 @@ main {
     align-items: center;
     border-radius: .375rem;
     display: inline-flex;
-    height: 3.5rem;
+    height: 3.1rem;
     justify-content: center;
     text-align: center;
     vertical-align: middle;
-    width: 3.5rem;
+    width: 3.1rem;
 }
 .icon {
     font-size: 1.7142857143rem;
