@@ -127,6 +127,7 @@ public class LocalStorage implements StorageImplementation {
             res.getString("address"),
             res.getString("userAgent"),
             res.getString("region"),
+            res.getBoolean("wasScanned"),
             res.getTimestamp("accesstime")
         ));
       }
