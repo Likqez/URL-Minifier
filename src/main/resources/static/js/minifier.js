@@ -41,14 +41,14 @@ $(document).ready(function () {
             "display": "grid",
             "grid-template-columns": `repeat(${Math.floor(2480 / sizeQR)}, ${sizeQR}px)`,
             "grid-template-rows": "auto",
-            "gap": "5px 5px"
+            "gap": "25px"
         });
 
         for (let i = 0; i < nQR; i++) {
-            element.append(`<img class="border-dark border-2" src="${srcQR}" width="${sizeQR}" height="${sizeQR}" alt="">`)
+            element.append(`<img class="border border-5" src="${srcQR}" width="${sizeQR}" height="${sizeQR}" alt="">`)
         }
 
-        element.printThis({afterPrint: $("#printme").remove(), importCSS: false, loadCSS: ""});
+        element.printThis({afterPrint: $("#printme").remove()});
     });
 
 
