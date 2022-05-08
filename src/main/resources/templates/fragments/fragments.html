@@ -25,11 +25,14 @@
                 </div>
 
                 <img class="mt-2" id="outputImage" width="250px" height="250px" alt="Link within QR-Code">
+
+                <h5>Print options:</h5>
+                <label for="nQR">Qty. :</label><input type="number" id="nQR" name="Qua" min="1" max="100">
             </div>
             <!-- End Modal Body -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary"><i class="bi bi-printer-fill"></i> Print QR-Code</button>
+                <button id="printBtn" type="button" class="btn btn-primary"><i class="bi bi-printer-fill"></i> Print QR-Code</button>
             </div>
         </div>
     </div>
