@@ -20,3 +20,20 @@ body {
     z-index: 2;
 }
 
+.printOpts {
+    text-align: left;
+}
+
+#nQR{
+    text-align: right;
+    width: 15%;
+}
+
+.nobull {
+    list-style-type: none;
+    padding: 0;
+}
+
+.nobull > li{
+    margin-bottom:  .5rem;
+}
