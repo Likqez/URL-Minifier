@@ -50,11 +50,11 @@ $(document).ready(function () {
         this.printThis({afterPrint: $("#printme").remove()});
     });
 
+    let fileList = [];
+
     $("#overlayImg").on('change', async function () {
-        let file = this.files[0];
-        let file64 = "";
-        if (file !== undefined)
-            file64 = await toBase64(file);
+        fileList = this.files;
+        let file64 = fileList[0] === undefined ? "" : await toBase64(fileList[0]);
         let color = $("#qrColor").val();
         console.log(file64);
         console.log(color);
@@ -62,10 +62,7 @@ $(document).ready(function () {
     });
 
     $("#qrColor").on('change', async function () {
-        let file = $("#overlayImg").files !== undefined ? $("#overlayImg").files[0] : undefined;
-        let file64 = "";
-        if (file !== undefined)
-            file64 = await toBase64(file);
+        let file64 = fileList[0] === undefined ? "" : await toBase64(fileList[0]);
         let color = $(this).val();
         console.log(file64);
         console.log(color);
