@@ -28,10 +28,10 @@ $(document).ready(function () {
 
     $("#printBtn").click(function () {
 
-        const sizeQR = 500
+        const sizeQR = 500;
         const nQR = $("#nQR").val();
         const srcQR = $("#outputImage").attr("src");
-        const gap = 0
+        const gap = 25;
 
         $("body").append('<div id="printme"> </div>');
         const element = $("#printme")
@@ -41,14 +41,14 @@ $(document).ready(function () {
             "display": "grid",
             "grid-template-columns": `repeat(${Math.floor(2480 / sizeQR)}, ${sizeQR}px)`,
             "grid-template-rows": "auto",
-            "gap": "25px"
+            "gap": `${gap}px`
         });
 
         for (let i = 0; i < nQR; i++) {
             element.append(`<img class="border border-5" src="${srcQR}" width="${sizeQR}" height="${sizeQR}" alt="">`)
         }
 
-        element.printThis({afterPrint: $("#printme").remove()});
+        element.printThis({afterPrint: element.remove()});
     });
 
 
