@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * For explanations
+ *
  * @see StorageImplementation
  */
 public class StorageManager {
@@ -48,8 +49,8 @@ public class StorageManager {
 
   public static void newMinified(String uid, String url, String image, Runnable success) throws RuntimeException {
     executorService.execute(() -> {
-      boolean b = storageImpl.get().newMinified(uid, url, image);
-      if (b) success.run();
+      if (storageImpl.get().newMinified(uid, url, image))
+        success.run();
     });
   }
 
